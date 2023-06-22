@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "32168159957",
+    "project_id": "camera-app-91adf",
+    "storage_bucket": "camera-app-91adf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:32168159957:android:03d09ea16f9b8e7329d05c",
+        "android_client_info": {
+          "package_name": "com.example.flyin_social_media_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "32168159957-9qe5v2ci0ru6j5tou10h7cmej6osjo1g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flyin_social_media_app",
+            "certificate_hash": "5dd1b911e6dc9841edae5d49a37e5ac31f586588"
+          }
+        },
+        {
+          "client_id": "32168159957-jditvnd79dk7hsasbtjjji0ee3jv7n28.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI_f_NnaQYoPnlfGUAH6-U4inqmFV3wbs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "32168159957-jditvnd79dk7hsasbtjjji0ee3jv7n28.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "32168159957-23t6rb2ocefug0s8e582ahkpmlm5mlk7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flyinSocialMediaApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
