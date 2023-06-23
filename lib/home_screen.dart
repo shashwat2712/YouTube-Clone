@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flyin_social_media_app/components/my_textfield.dart';
 import 'package:flyin_social_media_app/components/video_card.dart';
 import 'package:flyin_social_media_app/video_making_page.dart';
 
@@ -15,17 +17,55 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black54,
 
 
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            VideoCard(videoTitle: 'A YouTube video title is an important part of your video’s performance on YouTube for two main reasons:', videoAuthor: 'Bablon', viewCount: '90', timeStamp: '2 hours ago',),
-            VideoCard(videoTitle: 'A YouTube video title is an important part of your video’s performance on YouTube for two main reasons:', videoAuthor: '', viewCount: '', timeStamp: '',),
-            VideoCard(videoTitle: '', videoAuthor: '', viewCount: '', timeStamp: '',),
 
-          ],
-        ),
+
+      body: Column(
+        children: [
+
+          Expanded(
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('User_Posts')
+                    .orderBy('TimeStamp',
+                  descending: true,
+              ).snapshots(),
+                builder: (context,snapshot){
+                  if(snapshot.hasData){
+                    return ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context,index){
+                      //get the post details
+                      final post = snapshot.data!.docs[index];
+
+
+                      //Converting timestamp to DateTime
+                      DateTime dateTime = post['TimeStamp'].toDate();
+
+                      return Column(
+                        children: [
+                          VideoCard(
+                              videoTitle: post['Title'],
+                              videoAuthor: 'Author',
+                              viewCount: post['Views'],
+                              timeStamp: dateTime,
+                            ImageData: post['image_url'],
+                          ),
+                          SizedBox(height: 10,)
+                        ],
+                      );
+                    });
+
+                  }
+                  else if(snapshot.hasError){
+                    return Center(child: Text('Error:' + snapshot.error.toString()),);
+                  }
+                  return Center(child: const CircularProgressIndicator());
+                },
+          )),
+        ],
       ),
 
 
@@ -36,23 +76,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-      // CustomScrollView(
-      // slivers: [
-      //   SliverAppBar(
-      //       leadingWidth: 100.0,
-      //       leading: Image.asset('lib/assets/logo.png'),
-      //       backgroundColor: Colors.black87,
-      //       actions:  [
-      //
-      //         Padding(
-      //           padding: const EdgeInsets.all(8.0),
-      //           child: IconButton(
-      //             icon: Icon(Icons.notification_add_outlined),
-      //             onPressed: (){},
-      //           ),
-      //         )
-      //       ],
-      //   ),
 
 
 
@@ -60,7 +83,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-      backgroundColor: Colors.white,
 
     );
   }

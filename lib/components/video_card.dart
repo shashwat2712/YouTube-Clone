@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flyin_social_media_app/media_info.dart';
 import 'package:timeago/timeago.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class VideoCard extends StatelessWidget {
   final String videoTitle;
   final String videoAuthor;
   final String viewCount;
-  final String timeStamp;
+  DateTime timeStamp;
+  final String ImageData;
 
    VideoCard({
      super.key,
@@ -14,6 +16,7 @@ class VideoCard extends StatelessWidget {
      required this.videoAuthor,
      required this.viewCount,
      required this.timeStamp,
+     required this.ImageData
 
 
 }) ;
@@ -23,11 +26,11 @@ class VideoCard extends StatelessWidget {
     return GestureDetector(
       onTap: (){
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const MediaInfo()));
+            MaterialPageRoute(builder: (context) => MediaInfo()));
       },
       child: Column(
         children: [
-          Image.asset('lib/assets/thumbnail.jpg',
+          Image.network(ImageData,
             height: 220.0,
             width: double.infinity,
             fit: BoxFit.cover,
@@ -50,36 +53,38 @@ class VideoCard extends StatelessWidget {
                       Flexible(child: Text(
                         videoTitle,
                         style: TextStyle(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w500
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey[300]
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       )),
+                      SizedBox(height: 2),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Flexible(child: Text(
 
-                              videoAuthor,
+                              '${videoAuthor} • ${viewCount} views • ${'${timeago.format(timeStamp)}'}',
                               style: TextStyle(
                                 fontSize: 14.0,
+                                color: Colors.grey[300]
                               ),
-                              maxLines: 2,
+                              maxLines: 1,
 
                             overflow: TextOverflow.ellipsis,
                           )),
-                          Flexible(child: Text(
-                            viewCount,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          )),
-                          Flexible(child: Text(
-                            // '${timeago.format(timestamp)}',
-                            timeStamp,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          )),
+                          // Flexible(child: Text(
+                          //   viewCount,
+                          //   maxLines: 1,
+                          //   overflow: TextOverflow.ellipsis,
+                          // )),
+                          // Flexible(child: Text(
+                          //   '${timeago.format(timeStamp)}',
+                          //   maxLines: 1,
+                          //   overflow: TextOverflow.ellipsis,
+                          // )),
                         ],
                       ),
 
@@ -88,6 +93,7 @@ class VideoCard extends StatelessWidget {
                 ),
                 Icon(Icons.more_vert,
                   size: 20.0,
+                  color: Colors.grey[300],
                 ),
               ],
             ),

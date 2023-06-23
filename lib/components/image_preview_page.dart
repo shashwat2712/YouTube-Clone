@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flyin_social_media_app/components/myListTile.dart';
@@ -8,6 +10,7 @@ import 'package:flyin_social_media_app/video_making_page.dart';
 
 import 'MyButton.dart';
 class ImagePreview extends StatefulWidget {
+
   ImagePreview(this.file , {Key? key}) : super(key: key);
   XFile file;
 
@@ -17,9 +20,36 @@ class ImagePreview extends StatefulWidget {
 
 class _ImagePreviewState extends State<ImagePreview> {
 
+  String uid = FirebaseAuth.instance.currentUser?.uid.toString()??" ";
+  final currentUser = FirebaseAuth.instance.currentUser!;
+  String imageUrl = "";
+  int views = 0;
+
 
   final titleController = TextEditingController();
   final categoryController = TextEditingController();
+
+  void postMessage(){
+
+
+      //store in firebase
+      FirebaseFirestore.instance.collection('User_Posts').add({
+        'Views' : views.toString(),
+        'Phone_Number': currentUser.uid,
+        'location': CameraPage.location,
+        'TimeStamp': Timestamp.now(),
+        'Likes': [],
+        'Category' : categoryController.text,
+        'Title':titleController.text,
+        'image_url': imageUrl,
+      });
+
+
+
+    //clear the text field
+
+
+  }
   @override
   Widget build(BuildContext context) {
     File picture = File(widget.file.path);
@@ -173,11 +203,17 @@ class _ImagePreviewState extends State<ImagePreview> {
               try{
                 //Store the file
                 await  referenceImageToUpload.putFile(File(widget.file!.path));
-                String imageUrl = await referenceImageToUpload.getDownloadURL();
+                imageUrl = await referenceImageToUpload.getDownloadURL();
 
               }catch(error){
                 print(error);
 
+              }
+              try{
+                postMessage();
+              }
+              catch(error){
+                print(error);
               }
 
 

@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'components/bullets.dart';
 
 class MediaInfo extends StatefulWidget {
-  const MediaInfo({Key? key}) : super(key: key);
+  // final String postID;
+  const MediaInfo({
+  super.key,
+  // required this.postID,
+});
 
   @override
   State<MediaInfo> createState() => _MediaInfoState();
@@ -76,7 +80,7 @@ class _MediaInfoState extends State<MediaInfo> {
                 ],
               ),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
